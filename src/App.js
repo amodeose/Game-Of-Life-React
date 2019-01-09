@@ -8,61 +8,89 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-/*
   componentDidMount() {
 
     setTimeout(function() {
 
-      
+      for (let i = 0; i < 1601; i++) {
 
-    for (let i = 0; i < 1601; i++) {
+        let current = document.getElementById(i);
 
-       let neighbors = [
-        i - 10,
-        i - (10-1),
-        i - (10 +1),
-        i + 1,
-        i - 1,
-        i + 10,
-        i + (10-1),
-        i + (10+1)
-      ];
+        let count = 0;
 
-     for (let i = 0; i < neighbors.length; i++);
+        let neighbors = [
+          i - 40,
+          i - (39),
+          i - (41),
+          i + 1,
+          i - 1,
+          i + 40,
+          i + (40-1),
+          i + (40+1)];
 
-      let current = document.getElementById(i);
+        if (i <= 40) {
 
-      if (document.getElementById(i)) {
-        
+          neighbors = neighbors.filter(function(value) {
+
+            return value !== i - 40 || i - 39 || i - 41 || i ;
+
+          })
+        }
+
+        console.log(neighbors);
+
+        neighbors.forEach(function(element) {
+
+          if (document.getElementById(element).classList.contains("alive")) {
+            count++;
+          } 
+
+        })
+
+        switch (count) {
+
+          case 0:
+          case 1:
+
+            break;
+          case 2:
+          case 3:
+
+            break;
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+          case 8: 
+
+            break;
+          default:
+        }
       }
 
-     
-    }
+    }, 3000)
 
-  }, 3000)
 
   }
 
-*/
 
-handleClick(event) {
- 
-    event.target.classList.toggle("alive");
-    
-    
-}
+
+  handleClick(event) {
+    event.target.classList.toggle("alive");    
+  }
 
   render() {
-
-    
 
     let boxes = () => {
 
       let arr = [];
 
       for (let i = 1; i < 1601; i++) {
-
-        arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);
+        if (i % 12 === 0 || i % 13 === 0 || i % 14 === 0) {
+          arr.push(<div className={"cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
+        } else {
+          arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);
+        }
       }
 
       return arr;

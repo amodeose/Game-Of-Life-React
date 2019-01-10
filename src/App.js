@@ -12,7 +12,7 @@ class App extends Component {
 
     setTimeout(function() {
 
-      for (let i = 0; i < 1601; i++) {
+      for (let i = 1; i < 1601; i++) {
 
         let current = document.getElementById(i);
 
@@ -25,14 +25,72 @@ class App extends Component {
           i + 1,
           i - 1,
           i + 40,
-          i + (40-1),
-          i + (40+1)];
+          i + 39,
+          i + 41];
 
         if (i <= 40) {
 
           neighbors = neighbors.filter(function(value) {
 
-            return value !== i - 40 || i - 39 || i - 41 || i ;
+            if (value !== i - 40 && value !== i - 39 && value !== i - 41) {
+              return true;
+            } else {
+              return false;
+            }
+
+          })
+        }
+
+        if (i >= 1561) {
+
+          neighbors = neighbors.filter(function(value) {
+
+            if (value !== i + 40 && value !== i + 39 && value !== i + 41) {
+              return true;
+            } else {
+              return false;
+            }
+
+          })
+        }
+
+        console.log("the current box is " + i);
+
+        if (i === 1) {
+
+          neighbors = neighbors.filter(function(value) {
+
+            if (value !== i - 1) {
+              return true;
+            } else {
+              return false;
+            }
+
+          })
+        }
+
+        if ((i - 1) % 40 === 0) {
+
+          neighbors = neighbors.filter(function(value) {
+
+            if (value !== i - 1 && value !== i - 41 && value !== i + 39) {
+              return true;
+            } else {
+              return false;
+            }
+
+          })
+        }
+
+        if (i % 40 === 0) {
+
+          neighbors = neighbors.filter(function(value) {
+
+            if (value !== i + 1 && value !== i - 39 && value !== i + 41) {
+              return true;
+            } else {
+              return false;
+            }
 
           })
         }
@@ -46,6 +104,8 @@ class App extends Component {
           } 
 
         })
+
+        console.log("the count for that box is " + count);
 
         switch (count) {
 

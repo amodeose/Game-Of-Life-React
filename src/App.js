@@ -10,7 +10,7 @@ class App extends Component {
 
   componentDidMount() {
 
-    setTimeout(function() {
+    const myInterval = setInterval(function() {
 
       for (let i = 1; i < 1601; i++) {
 
@@ -54,8 +54,6 @@ class App extends Component {
           })
         }
 
-        console.log("the current box is " + i);
-
         if (i === 1) {
 
           neighbors = neighbors.filter(function(value) {
@@ -95,8 +93,6 @@ class App extends Component {
           })
         }
 
-        console.log(neighbors);
-
         neighbors.forEach(function(element) {
 
           if (document.getElementById(element).classList.contains("alive")) {
@@ -105,30 +101,27 @@ class App extends Component {
 
         })
 
-        console.log("the count for that box is " + count);
-
         switch (count) {
 
           case 0:
           case 1:
-
+            current.classList.remove("alive");
             break;
-          case 2:
           case 3:
-
+            current.classList.add('alive');
             break;
           case 4:
           case 5:
           case 6:
           case 7:
           case 8: 
-
+            current.classList.remove("alive");
             break;
           default:
         }
       }
 
-    }, 3000)
+    }, 500)
 
 
   }
@@ -146,7 +139,8 @@ class App extends Component {
       let arr = [];
 
       for (let i = 1; i < 1601; i++) {
-        if (i % 12 === 0 || i % 13 === 0 || i % 14 === 0) {
+        let odds = Math.random();
+        if (odds > 0.9) {
           arr.push(<div className={"cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
         } else {
           arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);

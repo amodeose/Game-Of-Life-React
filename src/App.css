@@ -19,3 +19,24 @@
 * {
   margin-bottom: -5px;
 }
+
+button {
+  margin-top: 20px;
+  display: block;
+  position: relative;
+  background-color: black;
+  color: white;
+  height: 70px;
+  width: 250px;
+  font-size: 3em;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.boundary {
+  margin: 0 auto;
+}

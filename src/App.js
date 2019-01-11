@@ -1,16 +1,42 @@
 import React, { Component } from 'react';
 import './App.css';
 
+let generation = 0;
+
 class App extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      generation: 1
+    };
     this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
 
-    const myInterval = setInterval(function() {
+    const initial = () => {
+
+      let arr = [];
+
+      for (let i = 1; i < 1601; i++) {
+        let odds = Math.random();
+        if (odds > 0.9) {
+          arr.push(<div className={"cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
+        } else {
+          arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);
+        }
+      }
+
+      return arr;
+
+    };
+
+    this.setState({
+      initial: initial()
+    })
+
+    const myInterval = setInterval(() => {
 
       for (let i = 1; i < 1601; i++) {
 
@@ -121,12 +147,12 @@ class App extends Component {
         }
       }
 
-    }, 500)
+    this.setState((prevState) => {return {generation: prevState.generation + 1}});
+
+    }, 250)
 
 
   }
-
-
 
   handleClick(event) {
     event.target.classList.toggle("alive");    
@@ -134,29 +160,12 @@ class App extends Component {
 
   render() {
 
-    let boxes = () => {
-
-      let arr = [];
-
-      for (let i = 1; i < 1601; i++) {
-        let odds = Math.random();
-        if (odds > 0.9) {
-          arr.push(<div className={"cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
-        } else {
-          arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);
-        }
-      }
-
-      return arr;
-
-    }
-
-
     return (
       <div className="App">
         <div className="boundary">
-          {boxes()}
+          {this.state.initial}
         </div>
+        <h1>Generation: {this.state.generation}</h1>
       </div>
     );
   }

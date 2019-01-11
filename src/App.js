@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-let generation = 0;
-
 class App extends Component {
 
   constructor(props) {
@@ -15,10 +13,8 @@ class App extends Component {
 
   componentDidMount() {
 
-    const initial = () => {
-
+    const initialize = () => {
       let arr = [];
-
       for (let i = 1; i < 1601; i++) {
         let odds = Math.random();
         if (odds > 0.9) {
@@ -27,23 +23,18 @@ class App extends Component {
           arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);
         }
       }
-
       return arr;
-
     };
 
     this.setState({
-      initial: initial()
+      initialize: initialize()
     })
 
     const myInterval = setInterval(() => {
-
       for (let i = 1; i < 1601; i++) {
 
         let current = document.getElementById(i);
-
         let count = 0;
-
         let neighbors = [
           i - 40,
           i - (39),
@@ -55,80 +46,62 @@ class App extends Component {
           i + 41];
 
         if (i <= 40) {
-
           neighbors = neighbors.filter(function(value) {
-
             if (value !== i - 40 && value !== i - 39 && value !== i - 41) {
               return true;
             } else {
               return false;
             }
-
           })
         }
 
         if (i >= 1561) {
-
           neighbors = neighbors.filter(function(value) {
-
             if (value !== i + 40 && value !== i + 39 && value !== i + 41) {
               return true;
             } else {
               return false;
             }
-
           })
         }
 
         if (i === 1) {
-
           neighbors = neighbors.filter(function(value) {
-
             if (value !== i - 1) {
               return true;
             } else {
               return false;
             }
-
           })
         }
 
         if ((i - 1) % 40 === 0) {
-
           neighbors = neighbors.filter(function(value) {
-
             if (value !== i - 1 && value !== i - 41 && value !== i + 39) {
               return true;
             } else {
               return false;
             }
-
           })
         }
 
         if (i % 40 === 0) {
-
           neighbors = neighbors.filter(function(value) {
-
             if (value !== i + 1 && value !== i - 39 && value !== i + 41) {
               return true;
             } else {
               return false;
             }
-
           })
         }
 
         neighbors.forEach(function(element) {
-
           if (document.getElementById(element).classList.contains("alive")) {
             count++;
           } 
-
         })
 
         switch (count) {
-
           case 0:
           case 1:
             current.classList.remove("alive");
@@ -147,15 +120,24 @@ class App extends Component {
         }
       }
 
-    this.setState((prevState) => {return {generation: prevState.generation + 1}});
+      this.setState({
+        interval: myInterval
+      })
 
+      this.setState((prevState) => {return {generation: prevState.generation + 1}});
     }, 250)
-
-
   }
 
   handleClick(event) {
     event.target.classList.toggle("alive");    
+  }
+
+  handleStop = () => {
+    clearInterval(this.state.interval);
+  }
+
+  handleRestart = () => {
+    window.location.reload();
   }
 
   render() {
@@ -163,9 +145,11 @@ class App extends Component {
     return (
       <div className="App">
         <div className="boundary">
-          {this.state.initial}
+          {this.state.initialize}
         </div>
         <h1>Generation: {this.state.generation}</h1>
+        <button onClick={this.handleStop}>Stop</button>
+        <button onClick={this.handleRestart}>Restart</button>
       </div>
     );
   }

@@ -11,8 +11,12 @@ body {
   box-sizing: border-box;
 }
 
-.alive {
+.alive.green {
   background-color: green;
+}
+
+.alive.red {
+  background-color: #DC143C;
 }
 
 .boundary {

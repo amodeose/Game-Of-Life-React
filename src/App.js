@@ -8,7 +8,7 @@ class App extends Component {
     this.state = {
       generation: 1,
       running: true,
-      speed: 250
+      speed: 20
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -19,8 +19,12 @@ class App extends Component {
       let arr = [];
       for (let i = 1; i < 1601; i++) {
         let odds = Math.random();
-        if (odds > 0.9) {
-          arr.push(<div className={"cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
+        if (odds > 0.85) {
+          if (i > 800) {
+            arr.push(<div className={"red cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
+          } else {
+            arr.push(<div className={"green cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
+          }
         } else {
           arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);
         }
@@ -33,10 +37,15 @@ class App extends Component {
     })
 
     const myInterval = setInterval(() => {
+
+      
+
       for (let i = 1; i < 1601; i++) {
 
         let current = document.getElementById(i);
         let count = 0;
+        let red = 0;
+        let green = 0;
         let neighbors = [
           i - 40,
           i - (39),
@@ -100,16 +109,37 @@ class App extends Component {
         neighbors.forEach(function(element) {
           if (document.getElementById(element).classList.contains("alive")) {
             count++;
-          } 
+          };
+          if (document.getElementById(element).classList.contains("red")) {
+            red++;
+          };
+          if (document.getElementById(element).classList.contains("green")) {
+            green++;
+          };
+           
         })
 
         switch (count) {
           case 0:
           case 1:
             current.classList.remove("alive");
+            current.classList.remove("red");
+            current.classList.remove("green");
             break;
           case 3:
             current.classList.add('alive');
+            if (green > red) {
+              current.classList.add('green');
+            } else if (red > green) {
+              current.classList.add('red');
+            } else {
+              let diceRoll = Math.random();
+              if (diceRoll < 0.50) {
+                current.classList.add('green');
+              } else {
+                current.classList.add('red');
+              }
+            }
             break;
           case 4:
           case 5:
@@ -117,6 +147,8 @@ class App extends Component {
           case 7:
           case 8: 
             current.classList.remove("alive");
+            current.classList.remove("red");
+            current.classList.remove("green");
             break;
           default:
         }
@@ -174,10 +206,14 @@ class App extends Component {
     })
 
     const myInterval = setInterval(() => {
+
+    
       for (let i = 1; i < 1601; i++) {
 
         let current = document.getElementById(i);
         let count = 0;
+        let red = 0;
+        let green = 0;
         let neighbors = [
           i - 40,
           i - (39),
@@ -241,16 +277,37 @@ class App extends Component {
         neighbors.forEach(function(element) {
           if (document.getElementById(element).classList.contains("alive")) {
             count++;
-          } 
+          };
+          if (document.getElementById(element).classList.contains("red")) {
+            red++;
+          };
+          if (document.getElementById(element).classList.contains("green")) {
+            green++;
+          };
+           
         })
 
         switch (count) {
           case 0:
           case 1:
             current.classList.remove("alive");
+            current.classList.remove("red");
+            current.classList.remove("green");
             break;
           case 3:
             current.classList.add('alive');
+            if (green > red) {
+              current.classList.add('green');
+            } else if (red > green) {
+              current.classList.add('red');
+            } else {
+              let diceRoll = Math.random();
+              if (diceRoll < 0.50) {
+                current.classList.add('green');
+              } else {
+                current.classList.add('red');
+              }
+            }
             break;
           case 4:
           case 5:
@@ -258,6 +315,8 @@ class App extends Component {
           case 7:
           case 8: 
             current.classList.remove("alive");
+            current.classList.remove("red");
+            current.classList.remove("green");
             break;
           default:
         }
@@ -278,8 +337,10 @@ class App extends Component {
         <div className="boundary">
           {this.state.initialize}
         </div>
+        <div className="info">
         <h1>Generation: {this.state.generation}</h1>
         <h1>Birth/Death Rate: {this.state.speed} milliseconds</h1>
+        </div>
         <div class="speed">
         <button id="slower"onClick={this.handleSlower}>Slower</button>
         <button id="pause"onClick={this.state.running ? this.handlePause : this.handleGo}>Stop/Go</button>

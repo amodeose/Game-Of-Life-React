@@ -8,7 +8,7 @@ class App extends Component {
     this.state = {
       generation: 1,
       running: true,
-      speed: 20
+      speed: 1
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -20,10 +20,12 @@ class App extends Component {
       for (let i = 1; i < 1601; i++) {
         let odds = Math.random();
         if (odds > 0.85) {
-          if (i > 800) {
+          if (i < 1600/3) {
             arr.push(<div className={"red cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
-          } else {
+          } else if (i > 3200/3) {
             arr.push(<div className={"green cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
+          } else {
+            arr.push(<div className={"blue cell alive"} key={i} onClick={this.handleClick} id={i}></div>);
           }
         } else {
           arr.push(<div className={"cell"} key={i} onClick={this.handleClick} id={i}></div>);
@@ -46,6 +48,7 @@ class App extends Component {
         let count = 0;
         let red = 0;
         let green = 0;
+        let blue = 0;
         let neighbors = [
           i - 40,
           i - (39),
@@ -116,6 +119,9 @@ class App extends Component {
           if (document.getElementById(element).classList.contains("green")) {
             green++;
           };
+          if (document.getElementById(element).classList.contains("blue")) {
+            blue++;
+          };
            
         })
 
@@ -125,19 +131,28 @@ class App extends Component {
             current.classList.remove("alive");
             current.classList.remove("red");
             current.classList.remove("green");
+            current.classList.remove("blue");
             break;
           case 3:
             current.classList.add('alive');
-            if (green > red) {
+            if (green > red && green > blue) {
               current.classList.add('green');
-            } else if (red > green) {
+            } else if (red > green && red > blue) {
               current.classList.add('red');
+            } else if (blue > green && blue > red) {
+              current.classList.add('blue');
             } else {
+              let total = red + green + blue
+              let redOdds = red/total;
+              let blueOdds = blue/total;
+              let greenOdds = green/total;
               let diceRoll = Math.random();
-              if (diceRoll < 0.50) {
+              if (diceRoll < redOdds) {
+                current.classList.add('red');
+              } else if (diceRoll < redOdds + greenOdds) {
                 current.classList.add('green');
               } else {
-                current.classList.add('red');
+                current.classList.add('blue');
               }
             }
             break;
@@ -149,6 +164,7 @@ class App extends Component {
             current.classList.remove("alive");
             current.classList.remove("red");
             current.classList.remove("green");
+            current.classList.remove("blue");
             break;
           default:
         }
@@ -214,6 +230,7 @@ class App extends Component {
         let count = 0;
         let red = 0;
         let green = 0;
+        let blue = 0;
         let neighbors = [
           i - 40,
           i - (39),
@@ -284,6 +301,9 @@ class App extends Component {
           if (document.getElementById(element).classList.contains("green")) {
             green++;
           };
+          if (document.getElementById(element).classList.contains("blue")) {
+            blue++;
+          };
            
         })
 
@@ -293,19 +313,32 @@ class App extends Component {
             current.classList.remove("alive");
             current.classList.remove("red");
             current.classList.remove("green");
+            current.classList.remove("blue");
             break;
           case 3:
             current.classList.add('alive');
-            if (green > red) {
+            if (green > red && green > blue) {
               current.classList.add('green');
-            } else if (red > green) {
+            } else if (red > green && red > blue) {
               current.classList.add('red');
+            } else if (blue > green && blue > red) {
+              current.classList.add('blue');
             } else {
+              let total = red + blue + green;
+              let redOdds = red/total;
+              let blueOdds = blue/total;
+              let greenOdds = green/total;
               let diceRoll = Math.random();
-              if (diceRoll < 0.50) {
+              console.log(diceRoll, "red" + redOdds, "green" + greenOdds, "blue" + blueOdds)
+              if (diceRoll < greenOdds) {
                 current.classList.add('green');
-              } else {
+                console.log("green wins")
+              } else if (diceRoll < redOdds + greenOdds) {
                 current.classList.add('red');
+                console.log("red wins")
+              } else {
+                current.classList.add('blue');
+                console.log("blue wins")
               }
             }
             break;
@@ -317,6 +350,7 @@ class App extends Component {
             current.classList.remove("alive");
             current.classList.remove("red");
             current.classList.remove("green");
+            current.classList.remove("blue");
             break;
           default:
         }
@@ -338,8 +372,8 @@ class App extends Component {
           {this.state.initialize}
         </div>
         <div className="info">
-        <h1>Generation: {this.state.generation}</h1>
-        <h1>Birth/Death Rate: {this.state.speed} milliseconds</h1>
+          <h1>Generation: {this.state.generation}</h1>
+          <h1>Birth/Death Rate: {this.state.speed} milliseconds</h1>
         </div>
         <div class="speed">
         <button id="slower"onClick={this.handleSlower}>Slower</button>

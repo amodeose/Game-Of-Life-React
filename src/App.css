@@ -19,6 +19,10 @@ body {
   background-color: #DC143C;
 }
 
+.alive.blue {
+  background-color: blue;
+}
+
 .boundary {
   width: 1000px;
   background-color: black;
@@ -74,4 +78,14 @@ h1 {
 
 #pause {
   background-color: blue;
+}
+
+.info {
+  background-color: black;
+  position: relative;
+  display: block;
+  color: lightgray;
+  width: 1000px;
+  margin: 0 auto;
+  top: -20px;
 }

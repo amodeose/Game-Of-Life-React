@@ -1,4 +1,8 @@
 
+body {
+  background-image: url("./light-grey-terrazzo.png");
+}
+
 .cell {
   display: inline-block;
   width: 25px;
@@ -22,7 +26,7 @@
 
 button {
   margin-top: 20px;
-  display: block;
+  display: inline-block;
   position: relative;
   background-color: black;
   color: white;
@@ -31,6 +35,10 @@ button {
   font-size: 3em;
   margin: 0 auto;
   margin-top: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  border-radius: 2%;
 }
 
 h1 {
@@ -39,4 +47,27 @@ h1 {
 
 .boundary {
   margin: 0 auto;
+}
+
+.speed {
+  margin: 0 auto;
+  display: block;
+  position: relative;
+  text-align: center;
+}
+
+#restart {
+  background-color: blue;
+}
+
+#faster {
+  background-color: green
+}
+
+#slower {
+  background-color: #DC143C
+}
+
+#pause {
+  background-color: blue;
 }
